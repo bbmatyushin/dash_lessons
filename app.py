@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 from dash import Dash, dcc, html, Input, Output
+import dash_bootstrap_components as dbc
 
 from dash_selectors.selectors import rplanet_selector, star_size_selector
 
@@ -22,27 +23,65 @@ def get_df():
 
 df = get_df()
 
-app = Dash(__name__)
+app = Dash(__name__,
+           external_stylesheets=[dbc.themes.COSMO])
 
 app.layout = html.Div([
-    html.H1('Hello Lesson!'),
-
-    html.Div('Select planet main semi-axis range'),
-    html.Div(rplanet_selector(df),
-             style={'width': '400px',
-                    'margin-bottom': '40px'}),
-
-    html.Div('Star Size'),
-    html.Div(star_size_selector(),
-             style={'width': '400px',
-                    'margin-bottom': '40px'}),
-
-    html.Div('Planet Temperature ~ Distance from the STAR'),
-    dcc.Graph(id='dist-temp-chart')  # график (figure) возвращается из upd_dist_temp_chart()
+    # Head
+    dbc.Row(html.H1("Hello Dash's lessons!"),
+            style={'margin-bottom': 40}),
+    # Filters
+    dbc.Row([
+        dbc.Col([
+            html.Div('Select planet main semi-axis range'),
+            html.Div(rplanet_selector(df))
+        ],
+            md=2
+        ),
+        dbc.Col([
+            html.Div('Star Size'),
+            html.Div(star_size_selector())
+        ],
+            width={'size': 3, 'offset': 1}
+        )
+    ],
+        style={'margin-bottom': 40}
+    ),
+    # Charts
+    dbc.Row([
+        dbc.Col([
+            html.Div('Planet Temperature ~ Distance from the STAR'),
+            dcc.Graph(id='dist-temp-chart')  # график (figure) возвращается из upd_dist_temp_chart()
+        ],
+            md=6
+        )
+    ],
+        style={'margin-bottom': 40}
+    )
 ],
     style={'margin-left': '80px',
            'margin-right': '80px'}
 )
+
+# app.layout = html.Div([
+#     html.H1('Hello Lesson!'),
+#
+#     html.Div('Select planet main semi-axis range'),
+#     html.Div(rplanet_selector(df),
+#              style={'width': '400px',
+#                     'margin-bottom': '40px'}),
+#
+#     html.Div('Star Size'),
+#     html.Div(star_size_selector(),
+#              style={'width': '400px',
+#                     'margin-bottom': '40px'}),
+#
+#     html.Div('Planet Temperature ~ Distance from the STAR'),
+#     dcc.Graph(id='dist-temp-chart')  # график (figure) возвращается из upd_dist_temp_chart()
+# ],
+#     style={'margin-left': '80px',
+#            'margin-right': '80px'}
+# )
 
 
 @app.callback(
