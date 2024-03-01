@@ -1,0 +1,6 @@
+.git/
+.venv/
+.idea/
+dash_selectors/__pycache__/
+db/
+
