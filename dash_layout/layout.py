@@ -2,6 +2,20 @@ from dash import html, dcc, Dash
 import dash_bootstrap_components as dbc
 
 
+# Charts ~~~~~~~~~~~~~~~~~~~~~~~
+tab1_content = [dbc.Row([
+                    dbc.Col([html.Div(id='dist-temp-chart')], md=6),
+                    dbc.Col([html.Div(id='celestial-chart')], md=6)
+                ],
+                    style={'margin-top': 20}
+                ),
+                dbc.Row([
+                    dbc.Col(html.Div(id='relative-dist-chart'), md=6),
+                    dbc.Col(html.Div(id='mstar-tstar-chart'), md=6)
+                ])
+            ]
+
+
 def get_layout(app: Dash, selectors_dict: dict):
     """:param selectors_dict - dcc selectors"""
 
@@ -30,14 +44,10 @@ def get_layout(app: Dash, selectors_dict: dict):
         ],
             style={'margin-bottom': 40}
         ),
-        # Charts ~~~~~~~~~~~~~~~~~~~~~~~
-        dbc.Row([
-            dbc.Col([html.Div(id='dist-temp-chart')], md=6),
-            dbc.Col([html.Div(id='celestial-chart')], md=6)
-        ]),
-        dbc.Row([
-            dbc.Col(html.Div(id='relative-dist-chart'), md=6),
-            dbc.Col(html.Div(id='mstar-tstar-chart'), md=6)
+        dbc.Tabs([
+            dbc.Tab(tab1_content, label='Charts'),
+            dbc.Tab(html.Div('Tab 2 Content'), label='Tab2'),
+            dbc.Tab(html.Div('About Page'), label='About')
         ])
     ],
         style={'margin-left': '80px',
