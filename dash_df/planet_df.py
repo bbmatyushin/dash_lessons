@@ -45,4 +45,7 @@ def get_planet_df():
 
     df['status'] = df.status.fillna('extreme')
 
+    #Reative distance (distance to SUN / SUM radii)
+    df.loc[:, 'relative_dist'] = df['A'] / df['RSTAR']
+
     return df

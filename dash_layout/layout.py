@@ -34,9 +34,11 @@ def get_layout(app: Dash, selectors_dict: dict):
         dbc.Row([
             dbc.Col([html.Div(id='dist-temp-chart')], md=6),
             dbc.Col([html.Div(id='celestial-chart')], md=6)
-        ],
-            style={'margin-bottom': 40}
-        )
+        ]),
+        dbc.Row([
+            dbc.Col(html.Div(id='relative-dist-chart'), md=6),
+            dbc.Col(html.Div(id='mstar-tstar-chart'), md=6)
+        ])
     ],
         style={'margin-left': '80px',
                'margin-right': '80px'}
