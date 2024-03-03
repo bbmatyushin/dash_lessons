@@ -2,5 +2,7 @@
 .venv/
 .idea/
 dash_selectors/__pycache__/
+dash_df/__pycache__/
+dash_layout/__pycache__/
 db/
 

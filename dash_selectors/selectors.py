@@ -9,7 +9,7 @@ def rplanet_selector(df: DataFrame) -> dcc.RangeSlider:
         max=max(df['RPLANET']),
         marks={5: '5', 10: '10', 20: '20', 30: '30', 40: '40'},
         step=1,
-        value=[5, 50]  # значения по умолчанию
+        value=[min(df['RPLANET']), max(df['RPLANET'])]  # значения по умолчанию
     )
 
     return rplanet_selector
