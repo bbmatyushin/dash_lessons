@@ -9,10 +9,10 @@ def get_layout(app: Dash, selectors_dict: dict):
     star_size_selector: dcc.Dropdown = selectors_dict['star_size_selector']
 
     app.layout = html.Div([
-        # Head
+        # Header ~~~~~~~~~~~~~~~~~~~~~~~~
         dbc.Row(html.H1("Hello Dash's lessons!"),
                 style={'margin-bottom': 40}),
-        # Filters
+        # Filters ~~~~~~~~~~~~~~~~~~~~~~~
         dbc.Row([
             dbc.Col([
                 html.Div('Select planet main semi-axis range'),
@@ -30,18 +30,10 @@ def get_layout(app: Dash, selectors_dict: dict):
         ],
             style={'margin-bottom': 40}
         ),
-        # Charts
+        # Charts ~~~~~~~~~~~~~~~~~~~~~~~
         dbc.Row([
-            dbc.Col([
-                html.Div('Planet Temperature ~ Distance from the STAR'),
-                dcc.Graph(id='dist-temp-chart')  # график (figure) возвращается из upd_dist_temp_chart()
-            ],
-                md=6
-            ),
-            dbc.Col([
-                html.Div('Position on the Celestial Sphere'),
-                dcc.Graph(id='celestial-chart')
-            ])
+            dbc.Col([html.Div(id='dist-temp-chart')], md=6),
+            dbc.Col([html.Div(id='celestial-chart')], md=6)
         ],
             style={'margin-bottom': 40}
         )
