@@ -15,4 +15,4 @@ Filter empty
 ![Lesson's dash](lesson_v2.png)
 
 
-[1]: https://www.youtube.com/watch?v=zQHRFHWLk1M&list=PLIAV3wuAPHZouwZlmvqmC-djRsaDKT8rC&index=8
+[1]: https://www.youtube.com/watch?v=NvHnzfx3UVA&list=PLIAV3wuAPHZouwZlmvqmC-djRsaDKT8rC&index=8
