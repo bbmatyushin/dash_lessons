@@ -1,6 +1,6 @@
 import plotly.express as px
 
-from dash import Dash, Input, Output
+from dash import Dash, Input, Output, State
 import dash_bootstrap_components as dbc
 
 from dash_selectors.selectors import rplanet_selector, star_size_selector
@@ -21,15 +21,22 @@ selectors_dict = {
 get_layout(app, selectors_dict)
 
 
+""" State - это состояния которые хранят в себе измененные данные
+    Input - это то, что триггерит изменение состояний.
+    Т.е., после нажатия на кноплку сработает триггер, который новые данные выведит на дашборт
+"""
 @app.callback(
     Output(component_id='dist-temp-chart', component_property='figure'),
-    [Input(component_id='range-slider', component_property='value'),
-     Input(component_id='star-selector', component_property='value')]
+    [Input(component_id='submit-val', component_property='n_clicks')],
+    [State(component_id='range-slider', component_property='value'),
+     State(component_id='star-selector', component_property='value')]
 )
-def upd_dist_temp_chart(radius_range, star_size):  # это компонент из Input - value
+def upd_dist_temp_chart(n, radius_range, star_size):  # это компонент из Input - value
     chart_data = df[(df['RPLANET'] >= radius_range[0]) &
                     (df['RPLANET'] <= radius_range[1]) &
                     (df['StarSize']).isin(star_size)]
+
+    # print(n)  # сколько раз кликнули на кнопку
 
     fig = px.scatter(chart_data, x='TPLANET', y='A', color='StarSize')
 
@@ -38,10 +45,11 @@ def upd_dist_temp_chart(radius_range, star_size):  # это компонент �
 
 @app.callback(
     Output(component_id='celestial-chart', component_property='figure'),
-    [Input(component_id='range-slider', component_property='value'),
-     Input(component_id='star-selector', component_property='value')]
+    [Input(component_id='submit-val', component_property='n_clicks')],
+    [State(component_id='range-slider', component_property='value'),
+     State(component_id='star-selector', component_property='value')]
 )
-def upd_celestail_chart(radius_range, star_size):  # это компонент из Input - value
+def upd_celestail_chart(n, radius_range, star_size):  # это компонент из Input - value
     chart_data = df[(df['RPLANET'] >= radius_range[0]) &
                     (df['RPLANET'] <= radius_range[1]) &
                     (df['StarSize']).isin(star_size)]

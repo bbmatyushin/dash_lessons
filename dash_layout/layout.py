@@ -25,7 +25,8 @@ def get_layout(app: Dash, selectors_dict: dict):
                 html.Div(star_size_selector)
             ],
                 width={'size': 3, 'offset': 1}
-            )
+            ),
+            dbc.Col(dbc.Button('Apply', id='submit-val', n_clicks=0, className='mr-2'))
         ],
             style={'margin-bottom': 40}
         ),
