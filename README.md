@@ -12,4 +12,4 @@
 ![Lesson's dash](lesson.png)
 
 
-[1]: https://www.youtube.com/watch?v=zQHRFHWLk1M&list=PLIAV3wuAPHZouwZlmvqmC-djRsaDKT8rC&index=7
+[1]: https://www.youtube.com/watch?v=bHjP1XFSiWk&list=PLIAV3wuAPHZouwZlmvqmC-djRsaDKT8rC&index=7
