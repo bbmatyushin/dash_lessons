@@ -1,5 +1,6 @@
+import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
+from io import StringIO
 
 from dash import Dash, Input, Output, State, html, dcc, dash_table
 import dash_bootstrap_components as dbc
@@ -27,22 +28,34 @@ get_layout(app, selectors_dict)
     Input - это то, что триггерит изменение состояний.
     Т.е., после нажатия на кноплку сработает триггер, который новые данные выведит на дашборт
 """
+@app.callback(Output(component_id='filtered-data', component_property='data'),
+              [Input(component_id='submit-val', component_property='n_clicks')],
+              [State(component_id='range-slider', component_property='value'),
+               State(component_id='star-selector', component_property='value')]
+              )
+def filter_data(n, radius_range, star_size):
+    """Через такой callback можно отдельно строить фильтрацию всего DF.
+    Т.е. получить данные для фильтрации от пользователя, здесь обработать,
+    и потом строить графики."""
+    my_data = df[(df['RPLANET'] >= radius_range[0]) &
+                 (df['RPLANET'] <= radius_range[1]) &
+                 (df['StarSize']).isin(star_size)]
+
+    return my_data.to_json(date_format='iso', orient='split', default_handler=str)
+
+
 @app.callback(
     [Output(component_id='dist-temp-chart', component_property='children'),
      Output(component_id='celestial-chart', component_property='children'),
      Output(component_id='relative-dist-chart', component_property='children'),
      Output(component_id='mstar-tstar-chart', component_property='children'),
      Output(component_id='raw-data-table', component_property='children')],
-    [Input(component_id='submit-val', component_property='n_clicks')],
-    [State(component_id='range-slider', component_property='value'),
-     State(component_id='star-selector', component_property='value')]
+    [Input(component_id='filtered-data', component_property='data')]
 )
-def upd_dist_temp_chart(n, radius_range, star_size):  # это компоненты из Input и State - component_property
-    chart_data = df[(df['RPLANET'] >= radius_range[0]) &
-                    (df['RPLANET'] <= radius_range[1]) &
-                    (df['StarSize']).isin(star_size)]
-
-    # print(n)  # сколько раз кликнули на кнопку
+def upd_dist_temp_chart(data):  # это компоненты из Input и State - component_property
+    # Если использовать read_json(data), то выдает предупреждение.
+    # Необходимо data передать через StringIO
+    chart_data = pd.read_json(StringIO(data), orient='split')
 
     if not len(chart_data):  # если в фильтры пустые (ничего не выбрали)
         return html.Div('Not selector filter'), html.Div(), \

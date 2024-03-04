@@ -39,6 +39,9 @@ def get_layout(app: Dash, selectors_dict: dict):
             ],
                 className='app-header')  # app-header - класс который создан в header.css
         ]),
+
+        dcc.Store(id='filtered-data', storage_type='session'),
+
         html.Div([
             # Filters ~~~~~~~~~~~~~~~~~~~~~~~
             dbc.Row([
