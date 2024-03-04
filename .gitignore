@@ -4,6 +4,7 @@
 dash_selectors/__pycache__/
 dash_df/__pycache__/
 dash_layout/__pycache__/
+dash_tables/__pycache__/
 dash_tabs/__pycache__/
 db/
 

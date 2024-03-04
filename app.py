@@ -6,6 +6,7 @@ import dash_bootstrap_components as dbc
 from dash_selectors.selectors import rplanet_selector, star_size_selector
 from dash_layout.layout import get_layout
 from dash_df.planet_df import get_planet_df
+from dash_tables.tables import raw_data_table
 
 
 app = Dash(__name__,
@@ -68,14 +69,7 @@ def upd_dist_temp_chart(n, radius_range, star_size):  # это компонен�
              dcc.Graph(figure=fig4)]
 
     # raw-data-table
-    raw_data = chart_data.drop(['relative_dist', 'StarSize', 'ROW', 'temp', 'gravity'], axis=1)
-    tbl = dash_table.DataTable(data=raw_data.to_dict('records'),
-                               columns=[{'name': i, 'id': i} for i in raw_data.columns],
-                               style_data={'width': '100px',
-                                           'maxWidth': '100px',
-                                           'minWidth': '100px'},
-                               style_header={'textAlign': 'center'},
-                               page_size=30)
+    tbl = raw_data_table(chart_data)
     html5 = [html.P('Raw Data'), tbl]
 
     # Возвращаем в той же последовательность, что и в Output

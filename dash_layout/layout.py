@@ -1,10 +1,11 @@
 from dash import html, dcc, Dash
 import dash_bootstrap_components as dbc
 
-from dash_tabs.tabs import get_tab_charts
+from dash_tabs.tabs import get_tab_charts, get_tab_about
 
 
 tab_charts = get_tab_charts()
+tab_about = get_tab_about()
 
 
 def get_layout(app: Dash, selectors_dict: dict):
@@ -38,7 +39,7 @@ def get_layout(app: Dash, selectors_dict: dict):
         dbc.Tabs([
             dbc.Tab(tab_charts, label='Charts'),
             dbc.Tab(dbc.Row(html.Div(id='raw-data-table')), label='Data'),
-            dbc.Tab(html.Div('About Page'), label='About')
+            dbc.Tab(tab_about, label='About')
         ])
     ],
         style={'margin-left': '80px',
