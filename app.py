@@ -1,4 +1,5 @@
 import plotly.express as px
+import plotly.graph_objects as go
 
 from dash import Dash, Input, Output, State, html, dcc, dash_table
 import dash_bootstrap_components as dbc
@@ -7,6 +8,7 @@ from dash_selectors.selectors import rplanet_selector, star_size_selector
 from dash_layout.layout import get_layout
 from dash_df.planet_df import get_planet_df
 from dash_tables.tables import raw_data_table
+from dash_design.charts_template import CHARTS_TEMPLATE, COLOR_STATUS_VALUES
 
 
 app = Dash(__name__,
@@ -35,7 +37,7 @@ get_layout(app, selectors_dict)
     [State(component_id='range-slider', component_property='value'),
      State(component_id='star-selector', component_property='value')]
 )
-def upd_dist_temp_chart(n, radius_range, star_size):  # это компонент из State - value
+def upd_dist_temp_chart(n, radius_range, star_size):  # это компоненты из Input и State - component_property
     chart_data = df[(df['RPLANET'] >= radius_range[0]) &
                     (df['RPLANET'] <= radius_range[1]) &
                     (df['StarSize']).isin(star_size)]
@@ -48,29 +50,32 @@ def upd_dist_temp_chart(n, radius_range, star_size):  # это компонен�
 
     # dist-temp-chart
     fig1 = px.scatter(chart_data, x='TPLANET', y='A', color='StarSize')
-    html1 = [html.Div('Planet Temperature ~ Distance from the STAR'),
+    fig1.update_layout(template=CHARTS_TEMPLATE)
+    html1 = [html.H4('Planet Temperature ~ Distance from the STAR'),
              dcc.Graph(figure=fig1)]
 
     # celestial-chart
-    fig2 = px.scatter(chart_data, x='RA', y='DEC', size='RPLANET', color='status')
-    html2 = [html.Div('Position on the Celestial Sphere'),
+    fig2 = px.scatter(chart_data, x='RA', y='DEC', size='RPLANET',
+                      color='status', color_discrete_sequence=COLOR_STATUS_VALUES)
+    fig2.update_layout(template=CHARTS_TEMPLATE)
+    html2 = [html.H4('Position on the Celestial Sphere'),
              dcc.Graph(figure=fig2)]
 
     # relative-dist-chart
     fig3 = px.histogram(chart_data, x='relative_dist',
                         color='status', barmode='overlay', marginal='violin')
     fig3.add_vline(x=1, y0=0, y1=150, annotation_text='Earth', line_dash='dot')
-    html3 = [html.Div('Relative Distance (AU/Sol radii)'),
+    html3 = [html.H4('Relative Distance (AU/Sol radii)'),
              dcc.Graph(figure=fig3)]
 
     # mstar-tstar-chart
     fig4 = px.scatter(chart_data, x='MSTAR', y='TSTAR', size='RPLANET', color='status')
-    html4 = [html.Div('Star Mass ~ Star Temperature'),
+    html4 = [html.H4('Star Mass ~ Star Temperature'),
              dcc.Graph(figure=fig4)]
 
     # raw-data-table
     tbl = raw_data_table(chart_data)
-    html5 = [html.P('Raw Data'), tbl]
+    html5 = [html.H5('Raw Data'), tbl]
 
     # Возвращаем в той же последовательность, что и в Output
     return html1, html2, html3, html4, html5

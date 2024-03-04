@@ -1,6 +1,7 @@
 .git/
 .venv/
 .idea/
+dash_design/__pycache__/
 dash_selectors/__pycache__/
 dash_df/__pycache__/
 dash_layout/__pycache__/

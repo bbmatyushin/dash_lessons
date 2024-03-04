@@ -21,13 +21,13 @@ def get_layout(app: Dash, selectors_dict: dict):
         # Filters ~~~~~~~~~~~~~~~~~~~~~~~
         dbc.Row([
             dbc.Col([
-                html.Div('Select planet main semi-axis range'),
+                html.H6('Select planet main semi-axis range'),
                 html.Div(rplanet_selector)
             ],
                 md=2
             ),
             dbc.Col([
-                html.Div('Star Size'),
+                html.H6('Star Size'),
                 html.Div(star_size_selector)
             ],
                 width={'size': 3, 'offset': 1}
