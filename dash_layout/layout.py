@@ -1,19 +1,10 @@
 from dash import html, dcc, Dash
 import dash_bootstrap_components as dbc
 
+from dash_tabs.tabs import get_tab_charts
 
-# Charts ~~~~~~~~~~~~~~~~~~~~~~~
-tab1_content = [dbc.Row([
-                    dbc.Col([html.Div(id='dist-temp-chart')], md=6),
-                    dbc.Col([html.Div(id='celestial-chart')], md=6)
-                ],
-                    style={'margin-top': 20}
-                ),
-                dbc.Row([
-                    dbc.Col(html.Div(id='relative-dist-chart'), md=6),
-                    dbc.Col(html.Div(id='mstar-tstar-chart'), md=6)
-                ])
-            ]
+
+tab_charts = get_tab_charts()
 
 
 def get_layout(app: Dash, selectors_dict: dict):
@@ -45,8 +36,8 @@ def get_layout(app: Dash, selectors_dict: dict):
             style={'margin-bottom': 40}
         ),
         dbc.Tabs([
-            dbc.Tab(tab1_content, label='Charts'),
-            dbc.Tab(html.Div('Tab 2 Content'), label='Tab2'),
+            dbc.Tab(tab_charts, label='Charts'),
+            dbc.Tab(dbc.Row(html.Div(id='raw-data-table')), label='Data'),
             dbc.Tab(html.Div('About Page'), label='About')
         ])
     ],

@@ -1,6 +1,6 @@
 import plotly.express as px
 
-from dash import Dash, Input, Output, State, html, dcc
+from dash import Dash, Input, Output, State, html, dcc, dash_table
 import dash_bootstrap_components as dbc
 
 from dash_selectors.selectors import rplanet_selector, star_size_selector
@@ -28,7 +28,8 @@ get_layout(app, selectors_dict)
     [Output(component_id='dist-temp-chart', component_property='children'),
      Output(component_id='celestial-chart', component_property='children'),
      Output(component_id='relative-dist-chart', component_property='children'),
-     Output(component_id='mstar-tstar-chart', component_property='children')],
+     Output(component_id='mstar-tstar-chart', component_property='children'),
+     Output(component_id='raw-data-table', component_property='children')],
     [Input(component_id='submit-val', component_property='n_clicks')],
     [State(component_id='range-slider', component_property='value'),
      State(component_id='star-selector', component_property='value')]
@@ -42,7 +43,7 @@ def upd_dist_temp_chart(n, radius_range, star_size):  # это компонен�
 
     if not len(chart_data):  # если в фильтры пустые (ничего не выбрали)
         return html.Div('Not selector filter'), html.Div(), \
-               html.Div(), html.Div()
+               html.Div(), html.Div(), html.Div()
 
     # dist-temp-chart
     fig1 = px.scatter(chart_data, x='TPLANET', y='A', color='StarSize')
@@ -66,8 +67,19 @@ def upd_dist_temp_chart(n, radius_range, star_size):  # это компонен�
     html4 = [html.Div('Star Mass ~ Star Temperature'),
              dcc.Graph(figure=fig4)]
 
+    # raw-data-table
+    raw_data = chart_data.drop(['relative_dist', 'StarSize', 'ROW', 'temp', 'gravity'], axis=1)
+    tbl = dash_table.DataTable(data=raw_data.to_dict('records'),
+                               columns=[{'name': i, 'id': i} for i in raw_data.columns],
+                               style_data={'width': '100px',
+                                           'maxWidth': '100px',
+                                           'minWidth': '100px'},
+                               style_header={'textAlign': 'center'},
+                               page_size=30)
+    html5 = [html.P('Raw Data'), tbl]
+
     # Возвращаем в той же последовательность, что и в Output
-    return html1, html2, html3, html4
+    return html1, html2, html3, html4, html5
 
 
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ def get_planet_df():
     response = requests.get(url=url)
     df = pd.json_normalize(response.json())
     df = df[df['PER'] > 0]
+    df['KOI'] = df['KOI'].astype(int, errors='ignore')
 
     # для разбивки на категории относительно размера солнца: 0-80%, 80-120%, 120-1000%
     bins_sun_size = [0, 0.8, 1.2, 100]
