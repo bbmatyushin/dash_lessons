@@ -63,13 +63,17 @@ def upd_dist_temp_chart(n, radius_range, star_size):  # это компонен�
 
     # relative-dist-chart
     fig3 = px.histogram(chart_data, x='relative_dist',
-                        color='status', barmode='overlay', marginal='violin')
+                        color='status', color_discrete_sequence=COLOR_STATUS_VALUES,
+                        barmode='overlay', marginal='violin')
     fig3.add_vline(x=1, y0=0, y1=150, annotation_text='Earth', line_dash='dot')
+    fig3.update_layout(template=CHARTS_TEMPLATE)
     html3 = [html.H4('Relative Distance (AU/Sol radii)'),
              dcc.Graph(figure=fig3)]
 
     # mstar-tstar-chart
-    fig4 = px.scatter(chart_data, x='MSTAR', y='TSTAR', size='RPLANET', color='status')
+    fig4 = px.scatter(chart_data, x='MSTAR', y='TSTAR', size='RPLANET',
+                      color='status', color_discrete_sequence=COLOR_STATUS_VALUES)
+    fig4.update_layout(template=CHARTS_TEMPLATE)
     html4 = [html.H4('Star Mass ~ Star Temperature'),
              dcc.Graph(figure=fig4)]
 

@@ -16,32 +16,56 @@ def get_layout(app: Dash, selectors_dict: dict):
 
     app.layout = html.Div([
         # Header ~~~~~~~~~~~~~~~~~~~~~~~~
-        dbc.Row(html.H1("Hello Dash's lessons!"),
-                style={'margin-bottom': 40}),
-        # Filters ~~~~~~~~~~~~~~~~~~~~~~~
-        dbc.Row([
-            dbc.Col([
-                html.H6('Select planet main semi-axis range'),
-                html.Div(rplanet_selector)
+        html.Div([
+            dbc.Row([
+                dbc.Col(
+                    html.Img(src=app.get_asset_url('images/planet.jpg'),
+                             style={'width': '85px', 'marginLeft': '40px'}),
+                    md=1
+                ),
+                dbc.Col([
+                    html.H1("Exoplanet Data Visualization"),
+                    html.A('Read about Exoplaten', href='https://ru.wikipedia.org/wiki/%D0%AD%D0%BA%D0%B7%D0%BE%D0%BF%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0',
+                           style={'marginLeft': '12px'})
+                ],
+                    md=7
+                ),
+                dbc.Col(html.Div([
+                    html.P('Contact information'),
+                    html.A('Git Repository', href='https://github.com/bbmatyushin/dash_lessons/tree/lesson_14')
+                ], className='app-referral'),
+                    md=4
+                )
             ],
-                md=2
-            ),
-            dbc.Col([
-                html.H6('Star Size'),
-                html.Div(star_size_selector)
+                className='app-header')  # app-header - класс который создан в header.css
+        ]),
+        html.Div([
+            # Filters ~~~~~~~~~~~~~~~~~~~~~~~
+            dbc.Row([
+                dbc.Col([
+                    html.H6('Select planet main semi-axis range'),
+                    html.Div(rplanet_selector)
+                ],
+                    md=2
+                ),
+                dbc.Col([
+                    html.H6('Star Size'),
+                    html.Div(star_size_selector)
+                ],
+                    width={'size': 3, 'offset': 1}
+                ),
+                dbc.Col(dbc.Button('Apply', id='submit-val', n_clicks=0, className='mr-2'))
             ],
-                width={'size': 3, 'offset': 1}
+                style={'margin-bottom': 40}
             ),
-            dbc.Col(dbc.Button('Apply', id='submit-val', n_clicks=0, className='mr-2'))
+            dbc.Tabs([
+                dbc.Tab(tab_charts, label='Charts'),
+                dbc.Tab(dbc.Row(html.Div(id='raw-data-table')), label='Data'),
+                dbc.Tab(tab_about, label='About')
+            ])
         ],
-            style={'margin-bottom': 40}
+            className='app-body'
         ),
-        dbc.Tabs([
-            dbc.Tab(tab_charts, label='Charts'),
-            dbc.Tab(dbc.Row(html.Div(id='raw-data-table')), label='Data'),
-            dbc.Tab(tab_about, label='About')
-        ])
-    ],
-        style={'margin-left': '80px',
-               'margin-right': '80px'}
-    )
+    ])
+    star_size_selector: dcc.Dropdown = selectors_dict['star_size_selector']
+
